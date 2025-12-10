@@ -6,7 +6,7 @@
 ![TypeScript](https://img.shields.io/badge/TYPESCRIPT-5.8.2-3178C6?style=for-the-badge&logo=typescript)
 ![Лицензия](https://img.shields.io/badge/%D0%9B%D0%98%D0%A6%D0%95%D0%9D%D0%97%D0%98%D0%AF-MIT-yellow?style=for-the-badge)
 
-https://gostofsparta-228.vercel.app/
+https://kratos-god-of-war-chi.vercel.app/
 
 ## 📜 О ПРОЕКТЕ
 
