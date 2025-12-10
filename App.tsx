@@ -4,7 +4,6 @@ import WeaponCard from './components/WeaponCard';
 import RunicDivider from './components/RunicDivider';
 import FeedbackForm from './components/FeedbackForm';
 
-// Интерфейс для снежинки
 interface Snowflake {
   id: number;
   x: number;
@@ -15,7 +14,6 @@ interface Snowflake {
   drift: number;
 }
 
-// Интерфейс для доп информации о мире
 interface RealmDetails {
   id: string;
   name: string;
@@ -26,7 +24,6 @@ interface RealmDetails {
   significance: string;
 }
 
-// Интерфейс для доп информации об оружии
 interface WeaponDetails {
   id: string;
   name: string;
@@ -39,7 +36,6 @@ interface WeaponDetails {
   significance: string;
 }
 
-// Интерфейс для информации об Иггдрасиле
 interface YggdrasilDetails {
   name: string;
   title: string;
@@ -52,7 +48,6 @@ interface YggdrasilDetails {
   quote: string;
 }
 
-// Дополнительные детали для каждого мира
 const REALM_DETAILS: Record<string, RealmDetails> = {
   midgard: {
     id: 'midgard',
@@ -110,7 +105,6 @@ const REALM_DETAILS: Record<string, RealmDetails> = {
   }
 };
 
-// Дополнительные детали для каждого оружия
 const WEAPON_DETAILS: Record<string, WeaponDetails> = {
   leviathan: {
     id: 'leviathan',
@@ -156,13 +150,12 @@ const WEAPON_DETAILS: Record<string, WeaponDetails> = {
       'Дистанционные атаки',
       'Создание копий из воздуха'
     ],
-    history: 'Создано братьями Хульдра специально для Кратоса во время его путешествия по Свартальфхейму. Основано на оригинальном артеfact Драупнир, кольце Одина.',
+    history: 'Создано братьями Хульдра специально для Кратоса во время его путешествия по Свартальфхейму. Основано на оригинальном артефакте Драупнир, кольце Одина.',
     notableUsers: ['Кратос', 'Спартанские воины (стиль)'],
     significance: 'Символ наследия Кратоса как спартанского генерала и военной тактики'
   }
 };
 
-// Информация об Иггдрасиле
 const YGGDRASIL_DETAILS: YggdrasilDetails = {
   name: 'Иггдрасиль',
   title: 'Мировое Древо',
@@ -203,26 +196,26 @@ function App() {
 
   const navItems = [
     { label: 'Истоки', id: 'origins' },
+    { label: 'История', id: 'history' },
     { label: 'Арсенал', id: 'arsenal' },
     { label: 'Миры', id: 'realms' },
     { label: 'Связь', id: 'feedback' },
   ];
 
-  // Инициализация снежинок
   useEffect(() => {
     const createSnowflakes = () => {
       const flakes: Snowflake[] = [];
-      const count = 60; // Количество снежинок
+      const count = 60;
       
       for (let i = 0; i < count; i++) {
         flakes.push({
           id: i,
           x: Math.random() * 100,
           y: Math.random() * 100,
-          size: Math.random() * 4 + 1, // От 1 до 5px
-          speed: Math.random() * 1 + 0.5, // От 0.5 до 1.5
-          opacity: Math.random() * 0.5 + 0.2, // От 0.2 до 0.7
-          drift: Math.random() * 2 - 1, // Дрейф влево/вправо
+          size: Math.random() * 4 + 1,
+          speed: Math.random() * 1 + 0.5,
+          opacity: Math.random() * 0.5 + 0.2,
+          drift: Math.random() * 2 - 1,
         });
       }
       
@@ -231,19 +224,16 @@ function App() {
 
     createSnowflakes();
 
-    // Анимация снежинок
     const interval = setInterval(() => {
       setSnowflakes(prev => prev.map(flake => {
         let newY = flake.y + flake.speed;
         let newX = flake.x + flake.drift * 0.1;
         
-        // Если снежинка ушла за нижнюю границу, возвращаем её наверх
         if (newY > 100) {
           newY = -5;
           newX = Math.random() * 100;
         }
         
-        // Если снежинка ушла за боковые границы, переносим на другую сторону
         if (newX > 100) newX = 0;
         if (newX < 0) newX = 100;
         
@@ -253,7 +243,7 @@ function App() {
           y: newY,
         };
       }));
-    }, 50); // Обновление каждые 50мс
+    }, 50);
 
     return () => clearInterval(interval);
   }, []);
@@ -312,7 +302,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-300 font-sans selection:bg-spartan-red selection:text-white overflow-hidden">
-      {/* Анимированные снежинки на фоне */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {snowflakes.map(flake => (
           <div
@@ -331,17 +320,14 @@ function App() {
         ))}
       </div>
 
-      {/* Модальное окно для деталей мира */}
       {isRealmModalOpen && selectedRealm && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="relative w-full max-w-2xl border-4 border-stone-800 bg-stone-900 shadow-2xl">
-            {/* Декоративные углы */}
             <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-spartan-red z-10"></div>
             <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-spartan-red z-10"></div>
             <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-spartan-red z-10"></div>
             <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-spartan-red z-10"></div>
 
-            {/* Заголовок модального окна */}
             <div className="bg-stone-800 p-4 border-b border-stone-700 flex justify-between items-center">
               <h3 className="text-xl font-serif text-stone-200 tracking-widest flex items-center gap-3">
                 <span className="text-2xl">{REALMS.find(r => r.id === selectedRealm.id)?.runeChar || 'ᛗ'}</span>
@@ -355,7 +341,6 @@ function App() {
               </button>
             </div>
 
-            {/* Контент модального окна */}
             <div className="p-6 space-y-6 bg-stone-900/90">
               <div>
                 <h4 className="text-spartan-red font-serif text-sm uppercase tracking-widest mb-2">Описание</h4>
@@ -400,7 +385,6 @@ function App() {
                 </ul>
               </div>
 
-              {/* Цитата в зависимости от мира */}
               <div className="border-l-4 border-spartan-red pl-4 mt-6">
                 <p className="text-stone-400 italic font-sans">
                   {selectedRealm.id === 'midgard' && '"Мир смертных, где решаются судьбы богов и людей."'}
@@ -413,7 +397,6 @@ function App() {
               </div>
             </div>
 
-            {/* Футер модального окна */}
             <div className="bg-stone-800 p-4 border-t border-stone-700 flex justify-end">
               <button
                 onClick={closeRealmModal}
@@ -426,17 +409,14 @@ function App() {
         </div>
       )}
 
-      {/* Модальное окно для деталей оружия */}
       {isWeaponModalOpen && selectedWeapon && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="relative w-full max-w-2xl border-4 border-stone-800 bg-stone-900 shadow-2xl">
-            {/* Декоративные углы */}
             <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-spartan-red z-10"></div>
             <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-spartan-red z-10"></div>
             <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-spartan-red z-10"></div>
             <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-spartan-red z-10"></div>
 
-            {/* Заголовок модального окна */}
             <div className="bg-stone-800 p-4 border-b border-stone-700 flex justify-between items-center">
               <h3 className="text-xl font-serif text-stone-200 tracking-widest flex items-center gap-3">
                 <span className={`text-2xl ${getElementColor(selectedWeapon.element)}`}>
@@ -452,7 +432,6 @@ function App() {
               </button>
             </div>
 
-            {/* Контент модального окна */}
             <div className="p-6 space-y-6 bg-stone-900/90">
               <div>
                 <h4 className="text-spartan-red font-serif text-sm uppercase tracking-widest mb-2">Описание</h4>
@@ -514,7 +493,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Цитата в зависимости от оружия */}
               <div className={`border-l-4 ${selectedWeapon.element === 'ice' ? 'border-nordic-ice' : selectedWeapon.element === 'fire' ? 'border-chaos-fire' : 'border-gold-mute'} pl-4 mt-6`}>
                 <p className="text-stone-400 italic font-sans">
                   {selectedWeapon.id === 'leviathan' && '"Топор не подведет. Проверено в бою." - Кратос'}
@@ -524,7 +502,6 @@ function App() {
               </div>
             </div>
 
-            {/* Футер модального окна */}
             <div className="bg-stone-800 p-4 border-t border-stone-700 flex justify-end">
               <button
                 onClick={closeWeaponModal}
@@ -537,17 +514,14 @@ function App() {
         </div>
       )}
 
-      {/* Модальное окно для Иггдрасиля */}
       {isYggdrasilModalOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="relative w-full max-w-3xl border-4 border-stone-800 bg-stone-900 shadow-2xl">
-            {/* Декоративные углы */}
             <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-spartan-red z-10"></div>
             <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-spartan-red z-10"></div>
             <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-spartan-red z-10"></div>
             <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-spartan-red z-10"></div>
 
-            {/* Заголовок модального окна */}
             <div className="bg-stone-800 p-4 border-b border-stone-700 flex justify-between items-center">
               <h3 className="text-xl font-serif text-stone-200 tracking-widest flex items-center gap-3">
                 <span className="text-2xl text-nordic-ice">🌳</span>
@@ -564,7 +538,6 @@ function App() {
               </button>
             </div>
 
-            {/* Контент модального окна */}
             <div className="p-6 space-y-6 bg-stone-900/90">
               <div>
                 <h4 className="text-spartan-red font-serif text-sm uppercase tracking-widest mb-2">Описание</h4>
@@ -623,7 +596,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Схема миров */}
               <div className="border border-stone-800 p-4 bg-stone-800/50 mt-4">
                 <h4 className="text-spartan-red font-serif text-sm uppercase tracking-widest mb-3 text-center">Структура миров</h4>
                 <div className="grid grid-cols-3 gap-2 text-center">
@@ -643,12 +615,10 @@ function App() {
                 <p className="text-center text-xs text-stone-500 mt-2">Все миры соединены через Иггдрасиль</p>
               </div>
 
-              {/* Цитата */}
               <div className="border-l-4 border-nordic-ice pl-4 mt-6">
                 <p className="text-stone-400 italic font-sans">{YGGDRASIL_DETAILS.quote}</p>
               </div>
 
-              {/* Примечание */}
               <div className="p-4 bg-stone-800/30 border border-stone-700 rounded">
                 <p className="text-stone-400 text-sm font-sans">
                   <span className="text-spartan-red font-serif">Примечание:</span> В God of War (2018) Иггдрасиль играет ключевую роль в путешествии Кратоса и Атрея. Древо и его хранители — важные элементы сюжета.
@@ -656,7 +626,6 @@ function App() {
               </div>
             </div>
 
-            {/* Футер модального окна */}
             <div className="bg-stone-800 p-4 border-t border-stone-700 flex justify-end">
               <button
                 onClick={closeYggdrasilModal}
@@ -669,7 +638,6 @@ function App() {
         </div>
       )}
 
-      {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-stone-950/90 backdrop-blur-md border-b border-stone-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -679,7 +647,6 @@ function App() {
               </span>
             </div>
             
-            {/* Desktop Menu */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
                 {navItems.map((item) => (
@@ -694,7 +661,6 @@ function App() {
               </div>
             </div>
 
-            {/* Mobile menu button */}
             <div className="-mr-2 flex md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -708,7 +674,7 @@ function App() {
             </div>
           </div>
         </div>
-        {/* Mobile Menu Dropdown */}
+        
         {mobileMenuOpen && (
            <div className="md:hidden bg-stone-900 border-b border-stone-800">
              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -727,7 +693,6 @@ function App() {
         )}
       </nav>
 
-      {/* Hero Section */}
       <section id="origins" className="relative h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0">
             <img 
@@ -755,8 +720,110 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
         <RunicDivider />
 
-        {/* Arsenal Section */}
-        <section id="arsenal" className="scroll-mt-24">
+        <section id="history" className="scroll-mt-24 mb-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-200 mb-4">
+              ИСТОРИЯ ПРИЗРАКА
+            </h2>
+            <p className="text-stone-500 max-w-xl mx-auto">Путь от спартанского генерала до бога войны и отца.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="relative group">
+              <div className="relative border-4 border-stone-800 overflow-hidden shadow-2xl transform rotate-1">
+                <img 
+                  src="/images/ded.png" 
+                  alt="Кратос - Бог Войны" 
+                  className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop';
+                    e.currentTarget.alt = 'Кратос - альтернативное изображение';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/30 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+                  <h3 className="text-2xl font-serif text-stone-100">КРАТОС</h3>
+                  <p className="text-stone-400 text-sm">Бывший спартанский генерал, Бог Войны</p>
+                </div>
+              </div>
+              <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-spartan-red"></div>
+              <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-spartan-red"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-spartan-red"></div>
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-spartan-red"></div>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="border-l-4 border-spartan-red pl-6 py-2">
+                <h3 className="text-2xl font-serif text-stone-200 mb-2">Начало пути</h3>
+                <p className="text-stone-400 font-sans leading-relaxed">
+                  Кратос родился в Спарте и стал одним из её величайших генералов. В отчаянии, столкнувшись с неминуемым поражением, он призвал на помощь Ареса, бога войны, пообещав служить ему в обмен на победу.
+                </p>
+              </div>
+              
+              <div className="border-l-4 border-spartan-red pl-6 py-2">
+                <h3 className="text-2xl font-serif text-stone-200 mb-2">Проклятие богов</h3>
+                <p className="text-stone-400 font-sans leading-relaxed">
+                  Арес обманул Кратоса, заставив его убить свою собственную семью. В наказание прах его жены и дочери навеки пристал к его коже, подарив ему прозвище «Призрак Спарты». Охваченный яростью, Кратос поклялся отомстить Аресу.
+                </p>
+              </div>
+              
+              <div className="border-l-4 border-spartan-red pl-6 py-2">
+                <h3 className="text-2xl font-serif text-stone-200 mb-2">Бог Войны</h3>
+                <p className="text-stone-400 font-sans leading-relaxed">
+                  Убив Ареса, Кратос занял его место на Олимпе. Но правление богов принесло ему лишь пустоту и страдания. В конечном итоге он уничтожил весь греческий пантеон, включая Зевса, своего отца.
+                </p>
+              </div>
+              
+              <div className="border-l-4 border-spartan-red pl-6 py-2">
+                <h3 className="text-2xl font-serif text-stone-200 mb-2">Новая жизнь в Скандинавии</h3>
+                <p className="text-stone-400 font-sans leading-relaxed">
+                  Сбежав из Греции, Кратос начал новую жизнь в Мидгарде. Он женился на великанше Лауфей и у них родился сын Атрей. После смерти Лауфей Кратос и Атрей отправились в путешествие, чтобы выполнить её последнюю волю — развеять её прах с высочайшей горы Йотунхейма.
+                </p>
+              </div>
+              
+              <div className="border-l-4 border-spartan-red pl-6 py-2">
+                <h3 className="text-2xl font-serif text-stone-200 mb-2">Отец и учитель</h3>
+                <p className="text-stone-400 font-sans leading-relaxed">
+                  Через отношения с Атреем Кратос учится контролировать свой гнев и становится настоящим отцом. Их путешествие — это не только физическое странствие, но и путь искупления, где Кратос борется со своим прошлым, чтобы дать сыну лучшее будущее.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-16 pt-8 border-t border-stone-800">
+            <h3 className="text-3xl font-serif text-stone-200 text-center mb-8">КЛЮЧЕВЫЕ СОБЫТИЯ</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-stone-800/50 p-6 border border-stone-700 hover:border-spartan-red transition-all duration-300">
+                <div className="text-spartan-red font-serif text-lg mb-2">Спартанский генерал</div>
+                <p className="text-stone-400 text-sm">Величайший воин Спарты до сделки с Аресом</p>
+              </div>
+              <div className="bg-stone-800/50 p-6 border border-stone-700 hover:border-spartan-red transition-all duration-300">
+                <div className="text-spartan-red font-serif text-lg mb-2">Призрак Спарты</div>
+                <p className="text-stone-400 text-sm">Проклятие, наложенное после смерти семьи</p>
+              </div>
+              <div className="bg-stone-800/50 p-6 border border-stone-700 hover:border-spartan-red transition-all duration-300">
+                <div className="text-spartan-red font-serif text-lg mb-2">Бог Войны</div>
+                <p className="text-stone-400 text-sm">Убийство Ареса и восхождение на Олимп</p>
+              </div>
+              <div className="bg-stone-800/50 p-6 border border-stone-700 hover:border-spartan-red transition-all duration-300">
+                <div className="text-spartan-red font-serif text-lg mb-2">Падение Олимпа</div>
+                <p className="text-stone-400 text-sm">Уничтожение греческого пантеона богов</p>
+              </div>
+              <div className="bg-stone-800/50 p-6 border border-stone-700 hover:border-spartan-red transition-all duration-300">
+                <div className="text-spartan-red font-serif text-lg mb-2">Новое начало</div>
+                <p className="text-stone-400 text-sm">Брак с Лауфей и рождение Атрея</p>
+              </div>
+              <div className="bg-stone-800/50 p-6 border border-stone-700 hover:border-spartan-red transition-all duration-300">
+                <div className="text-spartan-red font-serif text-lg mb-2">Путешествие отца</div>
+                <p className="text-stone-400 text-sm">Поход с Атреем для исполнения воли Лауфей</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <RunicDivider />
+
+        <section id="arsenal" className="scroll-mt-24 mb-20">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-200 mb-4 tracking-tight">
               АРСЕНАЛ
@@ -779,8 +846,7 @@ function App() {
 
         <RunicDivider />
 
-        {/* Realms Section */}
-        <section id="realms" className="scroll-mt-24">
+        <section id="realms" className="scroll-mt-24 mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-200 mb-8">
@@ -816,7 +882,6 @@ function App() {
             </div>
             
             <div className="relative">
-              {/* Основное фото - теперь кликабельное */}
               <div 
                 onClick={handleYggdrasilClick}
                 className="relative h-[500px] w-full border-4 border-stone-800 bg-stone-900 shadow-2xl overflow-hidden group cursor-pointer"
@@ -826,20 +891,17 @@ function App() {
                   alt="Девять миров Иггдрасиля" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   onError={(e) => {
-                    // Fallback если локальное фото не загрузилось
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1968&auto=format&fit=crop';
                     e.currentTarget.alt = 'Изображение Иггдрасиля - альтернативное';
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-60"></div>
                 
-                {/* Декоративные углы */}
                 <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-spartan-red z-10"></div>
                 <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-spartan-red z-10"></div>
                 <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-spartan-red z-10"></div>
                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-spartan-red z-10"></div>
                 
-                {/* Подпись */}
                 <div className="absolute bottom-4 right-4 bg-black/80 p-3 text-xs text-stone-300 font-serif tracking-widest border border-stone-700 backdrop-blur-sm group-hover:bg-spartan-red/80 group-hover:border-spartan-red transition-all duration-300">
                   ИГГДРАСИЛЬ
                   <span className="block text-[10px] text-stone-400 group-hover:text-stone-300 mt-1">
@@ -847,10 +909,8 @@ function App() {
                   </span>
                 </div>
                 
-                {/* Эффект при наведении */}
                 <div className="absolute inset-0 bg-spartan-red/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
-                {/* Эффект кликабельности */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="bg-black/50 p-3 rounded-full border border-stone-600 backdrop-blur-sm">
                     <span className="text-white text-sm font-serif">ℹ️</span>
@@ -858,7 +918,6 @@ function App() {
                 </div>
               </div>
               
-              {/* Небольшое пояснение под фото */}
               <p className="text-stone-500 text-sm italic mt-4 text-center font-sans">
                 Древо миров, связывающее все девять реальностей. Нажмите на фото или любой мир для подробностей.
               </p>
@@ -868,13 +927,11 @@ function App() {
 
         <RunicDivider />
 
-        {/* Feedback Section */}
         <section id="feedback" className="scroll-mt-24">
           <FeedbackForm />
         </section>
       </div>
 
-      {/* Footer */}
       <footer className="bg-stone-950 border-t border-stone-900 py-12 mt-20 relative z-10">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="text-4xl text-stone-800 font-serif mb-6">Ω</div>
@@ -882,7 +939,7 @@ function App() {
             Фанатский трибьют. Не связано с Santa Monica Studio или Sony Interactive Entertainment.
           </p>
           <p className="text-stone-700 text-xs mt-2">
-            Иггдрасиль — центральный элемент скандинавской мифологии и вселенной God of War
+            История Кратоса — это путь от гнева к искуплению, от разрушения к созиданию.
           </p>
         </div>
       </footer>
